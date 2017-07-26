@@ -1,0 +1,69 @@
+Name : <asp:TextBox ID="txtName" />
+Email : <asp:TextBox ID="txtEmail" />
+Web URL : <asp:TextBox ID="txtWebUrl" />
+Zip : <asp:TextBox ID="txtZip" />
+<asp:Button ID="btnSubmit" OnClientClick=" return validate()" runat="server" Text="Submit" />
+
+Now on the source code of this form in script tag write the following code:
+
+<script language="javascript" type="text/javascript">
+function validate()
+{
+      if (document.getElementById("<%=txtName.ClientID%>").value=="")
+      {
+                 alert("Name Feild can not be blank");
+                 document.getElementById("<%=txtName.ClientID%>").focus();
+                 return false;
+      }
+      if(document.getElementById("<%=txtEmail.ClientID %>").value=="")
+      {
+                 alert("Email id can not be blank");
+                document.getElementById("<%=txtEmail.ClientID %>").focus();
+                return false;
+      }
+     var emailPat = /^(\".*\"|[A-Za-z]\w*)@(\[\d{1,3}(\.\d{1,3}){3}]|[A-Za-z]\w*(\.[A-Za-z]\w*)+)$/;
+     var emailid=document.getElementById("<%=txtEmail.ClientID %>").value;
+     var matchArray = emailid.match(emailPat);
+     if (matchArray == null)
+    {
+               alert("Your email address seems incorrect. Please try again.");
+               document.getElementById("<%=txtEmail.ClientID %>").focus();
+               return false;
+    }
+    if(document.getElementById("<%=txtWebURL.ClientID %>").value=="")
+    {
+               alert("Web URL can not be blank");
+               document.getElementById("<%=txtWebURL.ClientID %>").value="http://"
+               document.getElementById("<%=txtWebURL.ClientID %>").focus();
+               return false;
+    }
+    var Url="^[A-Za-z]+://[A-Za-z0-9-_]+\\.[A-Za-z0-9-_%&\?\/.=]+$"
+    var tempURL=document.getElementById("<%=txtWebURL.ClientID%>").value;
+    var matchURL=tempURL.match(Url);
+     if(matchURL==null)
+     {
+               alert("Web URL does not look valid");
+               document.getElementById("<%=txtWebURL.ClientID %>").focus();
+               return false;
+     }
+     if (document.getElementById("<%=txtZIP.ClientID%>").value=="")
+     {
+               alert("Zip Code is not valid");
+               document.getElementById("<%=txtZIP.ClientID%>").focus();
+               return false;
+     }
+     var digits="0123456789";
+     var temp;
+     for (var i=0;i<document.getElementById("<%=txtZIP.ClientID %>").value.length;i++)
+     {
+               temp=document.getElementById("<%=txtZIP.ClientID%>").value.substring(i,i+1);
+               if (digits.indexOf(temp)==-1)
+               {
+                        alert("Please enter correct zip code");
+                        document.getElementById("<%=txtZIP.ClientID%>").focus();
+                        return false;
+               }
+     }
+     return true;
+}
+</script>
